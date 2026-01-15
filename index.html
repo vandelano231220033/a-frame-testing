@@ -2,15 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Patchouli's AR Debug</title>
-    
+    <title>Patchouli's AR Fix</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
     <script src="https://unpkg.com/vconsole@3.15.0/dist/vconsole.min.js"></script>
     <script>
-        // Initialize the mobile console immediately
         window.vConsole = new VConsole();
-        console.log("System Initialized. Waiting for AR...");
     </script>
 </head>
 
@@ -21,35 +17,22 @@
         vr-mode-ui="enabled: false"
         ar-mode-ui="enabled: true; enterAREnabled: true"
         renderer="antialias: true; alpha: true; precision: medium;"
-        webxr="optionalFeatures: hit-test, dom-overlay; overlay: #overlay">
+        webxr="requiredFeatures: hit-test; optionalFeatures: dom-overlay; overlayElement: #overlay">
         
-        <a-box position="0 0.5 -2" 
+        <a-entity camera position="0 1.6 0"></a-entity>
+
+        <a-box position="0 1.5 -2" 
                rotation="0 45 0" 
                color="red" 
-               scale="0.5 0.5 0.5">
+               animation="property: rotation; to: 0 405 0; loop: true; dur: 5000">
         </a-box>
 
-        <a-entity camera></a-entity>
+        <a-light type="ambient" intensity="1"></a-light>
+        <a-light type="directional" position="-1 2 1" intensity="1.5"></a-light>
 
     </a-scene>
 
     <div id="overlay" style="position: absolute; z-index: 1000; pointer-events: none;"></div>
 
-    <script>
-        // Listen for errors and print them
-        const scene = document.querySelector('a-scene');
-        
-        scene.addEventListener('enter-vr', function () {
-            console.log("ENTERED VR/AR MODE");
-        });
-
-        scene.addEventListener('ar-hit-test-start', function () {
-             console.log("Hit Test Started");
-        });
-        
-        scene.addEventListener('webxr-error', function (err) {
-             console.error("WebXR Error trapped:", err);
-        });
-    </script>
 </body>
 </html>
