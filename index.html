@@ -81,7 +81,12 @@
 </head>
 
 <body>
-    <a-scene webxr="optionalFeatures: hit-test" tap-to-spawn>
+    <a-scene 
+    webxr="optionalFeatures: hit-test; overlay: true"
+    renderer="alpha: true; antialias: true"
+    vr-mode-ui="enabled: false"
+    ar-mode-ui="enabled: true"
+    tap-to-spawn>
         
         <a-ring id="reticle" 
                 ar-reticle 
@@ -97,4 +102,5 @@
 
     </a-scene>
 </body>
+
 </html>
