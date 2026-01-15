@@ -1,59 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patchouli's Diagnostic</title>
-    <style>
-        body { background: #222; color: #0f0; font-family: monospace; padding: 20px; font-size: 14px; }
-        #log { white-space: pre-wrap; }
-        .error { color: #f00; }
-        .success { color: #0f0; font-weight: bold; }
-    </style>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+    <style> model-viewer { width: 100%; height: 100vh; background-color: #333; } </style>
 </head>
 <body>
-    <h2>AR Diagnostic Tool</h2>
-    <div id="log">Checking systems...</div>
-
-    <script>
-        const log = document.getElementById('log');
-        function print(msg, type='') {
-            log.innerHTML += `<div class="${type}">> ${msg}</div>`;
-        }
-
-        // 1. Check Protocol
-        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-            print("FATAL: You are not using HTTPS!", "error");
-            print("Current protocol: " + location.protocol);
-            print("WebXR requires a secure connection (GitHub Pages, etc).", "error");
-        } else {
-            print("Protocol Secure: OK", "success");
-        }
-
-        // 2. Check Browser Support
-        if ('xr' in navigator) {
-            print("Navigator.xr exists: OK", "success");
-            
-            // 3. Check AR Session Support
-            navigator.xr.isSessionSupported('immersive-ar')
-                .then((supported) => {
-                    if (supported) {
-                        print("AR Session Supported: YES", "success");
-                        print("Your device CAN do AR.");
-                    } else {
-                        print("AR Session Supported: NO", "error");
-                        print("Possible causes:");
-                        print("- Phone not compatible (ARCore missing?)");
-                        print("- Browser not compatible (Use Chrome Android)");
-                        print("- 'Google Play Services for AR' not installed");
-                    }
-                })
-                .catch((err) => {
-                    print("Error checking support: " + err, "error");
-                });
-        } else {
-            print("WebXR API missing!", "error");
-            print("Are you on an iPhone? (WebXR not supported on Safari)", "error");
-            print("Are you on an old browser?", "error");
-        }
-    </script>
+    <model-viewer 
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        alt="A 3D model of an astronaut"
+        ar
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls
+        auto-rotate>
+        
+        <button slot="ar-button" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); padding: 10px 20px;">
+            👋 Activate AR
+        </button>
+    </model-viewer>
 </body>
 </html>
